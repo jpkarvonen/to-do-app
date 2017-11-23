@@ -3,6 +3,11 @@ function onReady() {
   const addTodoForm = document.getElementById('addToDoForm');
   let id = 0;
 
+  // create delete button
+  let removeItem = document.createElement('button')
+  removeItem.type = "button";
+  removeItem.textContent = "Remove";
+
   function createNewToDo() {
     const newToDoText = document.getElementById('newToDoText');
 
@@ -14,7 +19,7 @@ function onReady() {
     toDos.push({
       title: newToDoText.value,
       complete: false,
-      id: id.value
+      id: id
     });
     newToDoText.value = '';
 
@@ -26,40 +31,37 @@ function onReady() {
 
     toDoList.textContent = '';
 
-    // create delete button
-    let removeItem = document.createElement('button')
-    removeItem.type = "button";
-    removeItem.textContent = "Remove";
-
     toDos.forEach(function(toDo) {
       const newLi = document.createElement('li');
       const checkbox = document.createElement('input');
       checkbox.type = "checkbox";
 
+      // create delete button
+      let removeItem = document.createElement('button')
+      removeItem.type = "button";
+      removeItem.textContent = "Remove";
+
       newLi.textContent = toDo.title;
       toDoList.appendChild(newLi);
       newLi.appendChild(checkbox);
-    });
 
-    // attach the delete button to li
-    newLi.appendChild(removeItem);
+      // attach the delete button to li
+      newLi.appendChild(removeItem);
 
-    // add function to delete button
-    removeItem.addEventListener('click', event => {
-
-      toDos.filter(function(toDo){
-        return toDo.id !== toDo.id;
+      // add function to delete button
+      removeItem.addEventListener('click', event => {
+        toDos.filter(function(toDo){
+          return toDos.id != toDo.id;
+          renderTheUI();
+        });
       });
-
-      renderTheUI();
-
     });
-  }
 
-  addToDoForm.addEventListener('submit', event =>{
+    addToDoForm.addEventListener('submit', event =>{
     event.preventDefault();
     createNewToDo();
-  });
+    });
+  };
 
 
   renderTheUI();
