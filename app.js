@@ -67,12 +67,8 @@ function onReady() {
 
       // add EventListener for checkbox
       checkbox.addEventListener('click', event => {
-        if (checkbox.checked === 'checked') {
-          toDo.complete = true;
-        }
-        else if (checkbox.checked !== 'checked') {
-          toDo.complete = false;
-        }
+        console.log(checkbox.checked);
+        toDo.complete = checkbox.checked ? true : false;
         // use the console to check if the complete value is changing
         console.log(toDos);
         localStorage.setItem('array',(JSON.stringify(toDos)));
