@@ -1,5 +1,5 @@
 function onReady() {
-  const toDos = [];
+  var toDos = [];
   const addTodoForm = document.getElementById('addToDoForm');
   let id = 0;
 
@@ -50,10 +50,10 @@ function onReady() {
 
       // add function to delete button
       removeItem.addEventListener('click', event => {
-        toDos.filter(function(toDo){
-          return toDos.id != toDo.id;
-          renderTheUI();
+        toDos = toDos.filter(function(el) {
+         return el.id !== toDo.id;
         });
+        renderTheUI();
       });
     });
 
