@@ -1,14 +1,33 @@
 function onReady() {
-  const toDos = [];
+  var toDos = [];
   const addTodoForm = document.getElementById('addToDoForm');
+  let id = 0;
+
+  // create delete button
+  let removeItem = document.createElement('button')
+  removeItem.type = "button";
+  removeItem.textContent = "Remove";
+
+  localStorage.getItem(function() {
+    if (value === null) {
+      return;
+    }
+    toDos = JSON.parse(array);
+  });
+
 
   function createNewToDo() {
     const newToDoText = document.getElementById('newToDoText');
+
     if (!newToDoText.value) { return; }
+
+    // increment id variable
+    id++;
 
     toDos.push({
       title: newToDoText.value,
-      complete: false
+      complete: false,
+      id: id
     });
     newToDoText.value = '';
 
@@ -25,16 +44,47 @@ function onReady() {
       const checkbox = document.createElement('input');
       checkbox.type = "checkbox";
 
+      // create delete button
+      let removeItem = document.createElement('button')
+      removeItem.type = "button";
+      removeItem.textContent = "Remove";
+
       newLi.textContent = toDo.title;
       toDoList.appendChild(newLi);
       newLi.appendChild(checkbox);
-    });
-  }
 
-  addToDoForm.addEventListener('submit', event =>{
-    event.preventDefault();
-    createNewToDo();
-  });
+      // attach the delete button to li
+      newLi.appendChild(removeItem);
+
+      // add function to delete button
+      removeItem.addEventListener('click', event => {
+        toDos = toDos.filter(function(el) {
+         return el.id !== toDo.id;
+        });
+        renderTheUI();
+        localStorage.setItem('array',(JSON.stringify(toDos)));
+      });
+
+      // add EventListener for checkbox
+      checkbox.addEventListener('click', event => {
+        if (checkbox.checked === 'checked') {
+          toDo.complete = true;
+        }
+        else if (checkbox.checked !== 'checked') {
+          toDo.complete = false;
+        }
+        // use the console to check if the complete value is changing
+        console.log(toDos);
+        localStorage.setItem('array',(JSON.stringify(toDos)));
+      });
+    });
+
+    addToDoForm.addEventListener('submit', event =>{
+      event.preventDefault();
+      createNewToDo();
+      localStorage.setItem('array',(JSON.stringify(toDos)));
+    });
+  };
 
 
   renderTheUI();
